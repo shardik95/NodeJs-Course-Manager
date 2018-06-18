@@ -28,6 +28,9 @@ app.use(session({
 var userService = require('./services/user.service.server');
 userService(app);
 
+var sectionService = require('./services/section.service.server');
+sectionService(app);
+
 app.get('/', function (req, res) {
     res.send('Hello World')
 })
