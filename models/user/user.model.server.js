@@ -34,10 +34,15 @@ function updateUser(user){
     })
 }
 
+function deleteProfile(userId){
+    return userModel.remove({_id:userId})
+}
+
 module.exports = {
     findAllUsers:findAllUsers,
     createUser:createUser,
     findByUserName:findByUserName,
     findUserByCredentials:findUserByCredentials,
-    updateUser:updateUser
+    updateUser:updateUser,
+    deleteProfile:deleteProfile
 }

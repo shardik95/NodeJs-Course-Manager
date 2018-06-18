@@ -7,6 +7,7 @@ module.exports = function (app) {
     app.get("/api/user/:username",findUserByUsername)
     app.put("/api/profile",updateProfile)
     app.post("/api/logout",logout)
+    app.delete("/api/profile",deleteProfile)
 
     var userModel = require("../models/user/user.model.server");
 
@@ -41,6 +42,8 @@ module.exports = function (app) {
                 }
                 else{
                     req.session['currentUser'] = user;
+                    var halfhour = 1800000
+                    req.session.cookie.maxAge = halfhour
                     return res.send(user);
                 }
             })
@@ -50,6 +53,8 @@ module.exports = function (app) {
         var user =  req.body;
         return userModel.createUser(user)
             .then(function (user) {
+                var halfhour = 1800000
+                req.session.cookie.maxAge = halfhour
                 req.session['currentUser'] = user;
                 return res.send(user)
             })
@@ -84,6 +89,12 @@ module.exports = function (app) {
                }
 
             })
+    }
+
+    function deleteProfile(req,res) {
+        var user = req.session['currentUser'];
+        return userModel.deleteProfile(user._id)
+            .then(response=>res.send(response));
     }
 
 }
